@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <style>
+        body {
+            background-image: url('/static/bg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            height: 90vh;
+        }
+        .left-half, .right-half {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            text-align: center; /* Center align content */
+        }
+        .left-half {
+            border-right: 1px solid #ccc;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9); /* Translucent white background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .instruction-box {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .instruction-box h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .left-half img {
+            max-width: 30%; /* Decrease image size by 70% */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Remove extra spacing */
+            margin: 0 auto 10px; /* Center align image and add spacing */
+        }
+        .image-caption {
+            font-size: 14px;
+            margin-top: 5px;
+            color: #666;
+            font-weight: bold; /* Make captions bold */
+        }
+        .right-half {
+            background-color: rgba(240, 240, 240, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        button {
+            padding: 40px 40px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            display: block; /* Ensure button is block-level */
+            margin: 10px auto; /* Center align button */
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        audio {
+            margin-top: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-half">
+            <h2>Welcome!</h2>
+            
+            
+            <font size = 3><h2>మీ సమస్య తెలుపండి, నివారణ తెలుసుకోండి.</h2></font>
+            
+            <!-- Translucent box for instructions and images -->
+            <div class="translucent-box">
+                <h3 align ="left"><u>వినియోగదారులకు మార్గదర్శకాలు:</u></h3>
+                <img src="/static/1.png" alt="click start recording button">
+                <p class="image-caption">1. మాట్లాడడానికి బటన్ నొక్కండి.</p>
+                <br>
+                <img src="/static/2.png" alt="symbol to speak">
+                <p class="image-caption">2. బటన్ నొక్కండి మరియు మాట్లాడండి.</p>
+                <br>
+                <img src="/static/3.png" alt="click the audio button">
+                <p class="image-caption">3. ఆడియో బటన్‌ను నొక్కండి.</p>
+
+                <p align="right"><a href="/logout">Back to Home</a></p>
+            </div>
+            
+        </div>
+        <div class="right-half">
+            {% if text %}
+                <h3>గుర్తించబడిన వచనం:</h3>
+                <p>{{ text }}</p>
+                <h3>Translated Text:</h3>
+                <p>{{ translated_text }}</p>
+                <h3>కీవర్డ్లు:</h3>
+                <p>{{ keywords }}</p>
+                <h3>సమాధానం:</h3>
+                {% for res in response %}
+                    <p>{{ res|safe }}</p>
+                {% endfor %}
+                {% if audio_file %}
+                    <audio controls>
+                        <source src="{{ url_for('play_audio', audio_file=audio_file) }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                {% endif %}
+            {% else %}
+                <h3>మీ ధ్వనిని రికార్డ్ చేసిన తరువాత ఇక్కడ సమాధానం వెలికి వస్తుంది.</h3>
+            {% endif %}
+            
+            <!-- Button outside the box -->
+            <button onclick="window.location.href='/record'"><b>Click Here.</b></button>
+        </div>
+    </div>
+</body>
+</html>
